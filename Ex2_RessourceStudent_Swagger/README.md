@@ -1,134 +1,119 @@
 # Microservice Student avec Swagger
 
-Ce projet est un microservice simple de gestion d'étudiants avec documentation Swagger, conçu comme un exemple pédagogique pour les débutants en Spring Boot.
+## Description
+Ce microservice permet de gérer une base de données d'étudiants avec une API REST documentée via Swagger. Il offre les fonctionnalités CRUD (Create, Read, Update, Delete) pour la gestion des étudiants.
 
-## Fonctionnalités
-
-- Liste de tous les étudiants (GET /students)
-- Recherche d'un étudiant par ID (GET /students/{id})
-- Création d'un étudiant (POST /students)
-- Modification d'un étudiant (PUT /students/{id})
-- Suppression d'un étudiant (DELETE /students/{id})
-- Recherche d'étudiants par promotion (GET /students?promotion=2025)
-- Documentation Swagger UI
+## Technologies utilisées
+- Java 17
+- Spring Boot 3.2.3
+- Spring Data JPA
+- H2 Database (base de données en mémoire)
+- Swagger/OpenAPI 3.0
+- Maven
 
 ## Prérequis
+- JDK 17 ou supérieur
+- Maven 3.6 ou supérieur
+- Un navigateur web moderne
 
-- Java 17 ou supérieur
-- Maven
-- Un IDE (IntelliJ IDEA, Eclipse, VS Code)
+## Installation et démarrage
 
-## Installation
-
-1. Cloner le projet :
+### 1. Cloner le projet
 ```bash
 git clone [URL_DU_REPO]
+cd student-swagger
 ```
 
-2. Se placer dans le répertoire du projet :
-```bash
-cd [NOM_DU_REPERTOIRE]
-```
-
-3. Compiler le projet :
+### 2. Compiler le projet
 ```bash
 mvn clean install
 ```
 
-## Lancement
-
-Pour démarrer l'application :
+### 3. Lancer l'application
 ```bash
 mvn spring-boot:run
 ```
 
-L'application sera accessible à l'adresse : http://localhost:8088
+L'application démarre sur le port 8088 par défaut.
+
+## Accès à l'API
+
+### Interface Swagger
+- URL : http://localhost:8088/swagger-ui/index.html
+- Documentation complète de l'API avec interface interactive
+- Possibilité de tester les endpoints directement depuis l'interface
+
+### Endpoints disponibles
+
+#### 1. Récupérer tous les étudiants
+- **GET** `/students`
+- Paramètre optionnel : `promotion` (année de promotion)
+- Exemple : `GET /students?promotion=2025`
+
+#### 2. Récupérer un étudiant par ID
+- **GET** `/students/{id}`
+- Exemple : `GET /students/1`
+
+#### 3. Créer un nouvel étudiant
+- **POST** `/students`
+- Body (JSON) :
+```json
+{
+    "firstName": "Jean",
+    "lastName": "Dupont",
+    "email": "jean.dupont@example.com",
+    "promotion": 2025
+}
+```
+
+#### 4. Mettre à jour un étudiant
+- **PUT** `/students/{id}`
+- Body (JSON) : même format que la création
+
+#### 5. Supprimer un étudiant
+- **DELETE** `/students/{id}`
+
+## Structure du projet
+```
+src/main/java/com/example/student/
+├── config/
+│   └── OpenApiConfig.java      # Configuration Swagger
+├── controller/
+│   └── StudentController.java  # Contrôleur REST
+├── model/
+│   └── Student.java           # Entité Student
+├── repository/
+│   └── StudentRepository.java # Repository JPA
+└── StudentApplication.java    # Point d'entrée
+```
+
+## Base de données
+- Base de données H2 en mémoire
+- URL de la console H2 : http://localhost:8088/h2-console
+- JDBC URL : `jdbc:h2:mem:studentdb`
+- Username : `sa`
+- Password : (vide)
 
 ## Documentation Swagger
-
-La documentation Swagger est accessible aux adresses suivantes :
-- Interface Swagger UI : http://localhost:8088/swagger-ui/index.html
-- Documentation OpenAPI : http://localhost:8088/v3/api-docs
+La documentation de l'API est générée automatiquement et inclut :
+- Description détaillée de chaque endpoint
+- Paramètres attendus avec leurs types
+- Exemples de requêtes et réponses
+- Codes de retour HTTP
+- Schémas des modèles de données
 
 ## Tests
-
 Pour exécuter les tests :
 ```bash
 mvn test
 ```
 
-## Structure du projet
+## Contribution
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité
+3. Commiter vos changements
+4. Pousser vers la branche
+5. Ouvrir une Pull Request
 
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/
-│   │       └── example/
-│   │           └── student/
-│   │               ├── config/
-│   │               │   └── OpenApiConfig.java
-│   │               ├── controller/
-│   │               │   └── StudentController.java
-│   │               ├── model/
-│   │               │   └── Student.java
-│   │               ├── repository/
-│   │               │   └── StudentRepository.java
-│   │               └── StudentApplication.java
-│   └── resources/
-│       └── application.properties
-└── test/
-    └── java/
-        └── com/
-            └── example/
-                └── student/
-```
-
-## Exemples d'utilisation
-
-### 1. Créer un étudiant
-```bash
-curl -X POST http://localhost:8088/students \
--H "Content-Type: application/json" \
--d '{
-    "firstName": "Jean",
-    "lastName": "Dupont",
-    "email": "jean.dupont@example.com",
-    "promotion": 2025
-}'
-```
-
-### 2. Lister tous les étudiants
-```bash
-curl http://localhost:8088/students
-```
-
-### 3. Rechercher par promotion
-```bash
-curl http://localhost:8088/students?promotion=2025
-```
-
-### 4. Rechercher par ID
-```bash
-curl http://localhost:8088/students/1
-```
-
-### 5. Modifier un étudiant
-```bash
-curl -X PUT http://localhost:8088/students/1 \
--H "Content-Type: application/json" \
--d '{
-    "firstName": "Jean",
-    "lastName": "Dupont",
-    "email": "jean.dupont.updated@example.com",
-    "promotion": 2025
-}'
-```
-
-### 6. Supprimer un étudiant
-```bash
-curl -X DELETE http://localhost:8088/students/1
-```
-
-### Accès à la console H2
-La console H2 est accessible à l'adresse : http://localhost:8088/h2-console 
+## Licence
+Ce projet est sous licence Apache 2.0. 
